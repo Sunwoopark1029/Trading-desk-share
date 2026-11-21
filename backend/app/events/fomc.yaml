@@ -1,0 +1,25 @@
+# FOMC meetings, copied from https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
+# (page "Last Update: November 18, 2026"; checked 2026-11-21). The Fed has no feed for these dates.
+# "Each meeting date is tentative until confirmed at the meeting immediately preceding it."
+# sep: true = "Meeting associated with a Summary of Economic Projections" (asterisk on the page).
+# The page shows no statement time, so the desk shows the decision day without a time.
+source: https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
+checked: 2026-11-21
+meetings:
+  - {start: 2026-01-27, end: 2026-01-28, sep: false}
+  - {start: 2026-03-17, end: 2026-03-18, sep: true}
+  - {start: 2026-04-28, end: 2026-04-29, sep: false}
+  - {start: 2026-06-16, end: 2026-06-17, sep: true}
+  - {start: 2026-07-28, end: 2026-07-29, sep: false}
+  - {start: 2026-09-15, end: 2026-09-16, sep: true}
+  - {start: 2026-10-27, end: 2026-10-28, sep: false}
+  - {start: 2026-12-08, end: 2026-12-09, sep: true}
+  # 2027: the page shows no asterisks yet
+  - {start: 2027-01-26, end: 2027-01-27, sep: false}
+  - {start: 2027-03-16, end: 2027-03-17, sep: false}
+  - {start: 2027-04-27, end: 2027-04-28, sep: false}
+  - {start: 2027-06-08, end: 2027-06-09, sep: false}
+  - {start: 2027-07-27, end: 2027-07-28, sep: false}
+  - {start: 2027-09-14, end: 2027-09-15, sep: false}
+  - {start: 2027-10-26, end: 2027-10-27, sep: false, note: "Monetary Policy Strategy Meeting"}
+  - {start: 2027-11-16, end: 2027-11-17, sep: false}

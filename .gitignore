@@ -1,0 +1,61 @@
+# ── Secrets (never commit) ──
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials*.json
+token*.json
+
+# ── Personal data / logs ──
+logs/
+positions.json
+*.jsonl
+# temp files left if a save is interrupted (copies of positions/overlays)
+.positions.json.*
+.overlays.json.*
+*.tmp
+*.sqlite
+*.db
+
+# ── Claude Code personal settings (the shared .claude/settings.json IS committed) ──
+.claude/settings.local.json
+CLAUDE.local.md
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# ── Node / frontend ──
+node_modules/
+dist/
+build/
+.vite/
+*.local
+
+# ── Editor / OS ──
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Cloud server backups (scripts/linux/backup.sh) ──
+backups/
+
+# ── App data (local only; in data/ since 2026-11-21, patterns match in any folder) ──
+user_settings.json
+user_settings.json.tmp
+overlays.json
+cache/
+watchlist.json
+.watchlist.json.*

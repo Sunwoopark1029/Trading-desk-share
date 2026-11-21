@@ -1,0 +1,5 @@
+# Windows scripts need CRLF line endings
+*.cmd text eol=crlf
+# Linux server scripts and systemd units need LF line endings
+*.sh text eol=lf
+scripts/linux/* text eol=lf

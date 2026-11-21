@@ -1,0 +1,18 @@
+# Candle A/B test questions. Each runs twice on Normal (Sonnet): A = levels only, B = levels + raw candles.
+# Prices in answers are checked in code against the dashboard's levels (and, for B, the candle values).
+questions:
+  - {symbol: SOXS, timeframe: 5m, text: "Where are the nearest support levels on SOXS 5m? List them with their level ids."}
+  - {symbol: SOXS, timeframe: 5m, text: "Where are the nearest resistance levels on SOXS 5m?"}
+  - {symbol: SOXS, timeframe: 5m, text: "Is SOXS trading above or below session VWAP, and by how much in price?"}
+  - {symbol: SOXS, timeframe: 5m, text: "Which levels overlap (within a few cents) on SOXS right now? That cluster is my zone of interest."}
+  - {symbol: SOXS, timeframe: 5m, text: "How are EMA 9, 20 and 60 stacked on SOXS 5m, and what does that say about the trend?"}
+  - {symbol: SOXS, timeframe: 5m, text: "Where is the 0.618 Fibonacci level of today's range on SOXS, and has price respected it?"}
+  - {symbol: SOXS, timeframe: 5m, text: "What were the last two swing highs and swing lows on SOXS 5m?"}
+  - {symbol: SOXS, timeframe: 5m, text: "If SOXS loses session VWAP, what is the next level below?"}
+  - {symbol: SOXS, timeframe: 5m, text: "Compare the current SOXS price with the previous close and the previous day's high and low."}
+  - {symbol: SOXS, timeframe: 5m, text: "Give me one long and one short scenario for SOXS with entry, invalidation and target levels (as a list, with level ids)."}
+  - {symbol: SOXS, timeframe: 5m, text: "Describe the price action of the last hour on SOXS: higher highs, lower lows, or range?"}
+  - {symbol: SOXS, timeframe: 5m, text: "Was there a volume spike on SOXS in the session so far, and at what price did it happen?"}
+  - {symbol: SOXX, timeframe: 5m, text: "Where are the key support and resistance levels on SOXX 5m?"}
+  - {symbol: SOXX, timeframe: 5m, text: "Is SOXX in an uptrend or downtrend today based on EMAs, VWAP and swings?"}
+  - {symbol: SOXX, timeframe: 5m, text: "What is today's session range on SOXX and where is price inside it?"}

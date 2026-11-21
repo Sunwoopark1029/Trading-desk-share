@@ -1,0 +1,10 @@
+# Runs the backup every day at 07:00 server time (setup.sh sets the server to KST: after the US close).
+[Unit]
+Description=Trading Desk daily backup timer
+
+[Timer]
+OnCalendar=*-*-* 07:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

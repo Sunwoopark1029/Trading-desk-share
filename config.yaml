@@ -1,0 +1,147 @@
+# Personal Trading Desk — settings (no secrets here; keys go in .env only)
+# Server host/port are fixed in start.cmd (127.0.0.1:8000), not here.
+
+tickers:
+  default: SOXS          # chart opens on this symbol
+  compare: [SOXX]        # quick-switch symbols
+  strip: [SOXS, SOXX]    # Toss quotes shown in the top strip
+
+polling:                 # seconds between refreshes
+  quotes_seconds: 2      # Toss quotes (also move the forming candle on the chart)
+  candles_seconds: 5     # Toss 1m bars re-fetched at most this often
+  chart_seconds: 2       # screen redraws the chart this often
+  fx_seconds: 60
+  calendar_seconds: 3600
+  stock_list_seconds: 86400
+  yfinance_seconds: 300
+  fred_seconds: 21600     # 6 h
+  stale_after_factor: 3   # "stale" when age > factor x poll interval
+
+toss:
+  base_url: https://openapi.tossinvest.com   # confirmed in developers.tossinvest.com/llms.txt
+  rate_limit_safety: 0.8                     # use 80% of each documented limit
+  rate_limits_per_second:                    # documented per-group limits
+    AUTH: 5
+    MARKET_DATA: 15         # prices
+    MARKET_DATA_CHART: 20   # candles
+    MARKET_INFO: 3          # market calendar, exchange rate
+    STOCK_ALL: 1            # stock list
+  timeout_seconds: 10
+  token_refresh_margin_seconds: 300           # reissue within 5 min of expiry
+
+yfinance:
+  symbols: ["NQ=F", "ES=F", "^ICESEMI", "^VIX", "^TNX", "KRW=X"]
+  delay_minutes:            # shown on screen as "yfinance ~N min"
+    "NQ=F": 10
+    "ES=F": 10
+    "^ICESEMI": 15
+    "^VIX": 15
+    "^TNX": 15
+    "KRW=X": 15
+  backoff_start_seconds: 2
+  backoff_max_seconds: 900
+  tnx_vs_fred_warn_points: 1   # flag "unit?" if |^TNX - DGS10| > this
+
+fred:
+  series_id: DGS10
+  limit: 5
+
+pnl:
+  fee_rate: 0.001            # 0.1% on each buy and each sell, charged separately
+  fee_free_below_usd: 10     # an order whose total is under $10 has no fee
+  fx_spread_bp: null         # null = use |Toss basisPoint| (est.; actual spread UNVERIFIED)
+
+# Manual event list for the top strip. Time MUST include a UTC offset
+# (e.g. -05:00 for US Eastern winter, -04:00 summer, +09:00 for KST).
+events:
+  - name: "Example: US CPI release"
+    time: "2026-12-10T08:30:00-05:00"
+    note: "Replace with your own events"
+
+# ── AI chat (phase 2) ── model IDs and prices live ONLY here, never in code.
+llm:
+  tiers:
+    normal:     {model: claude-sonnet-5-5, label: "Normal (Sonnet)",   effort: medium, max_tokens: 16000}
+    deep:       {model: claude-opus-5-5,   label: "Deep (Opus)",       effort: high,   max_tokens: 16000}
+    very_deep:  {model: claude-fable-5-2,  label: "Very deep (Fable)", effort: high,   max_tokens: 16000}
+    background: {model: claude-haiku-5-5,  label: "Background (Haiku)", effort: low,   max_tokens: 4000}
+  # USD per million tokens. Verified 2026-11-16 on
+  # https://platform.claude.com/docs/en/about-claude/pricing (that page shows names, not ID strings;
+  # the IDs are checked against Anthropic's Models API with: check_models.cmd).
+  prices_usd_per_mtok:
+    claude-sonnet-5-5: {input: 2.00, output: 10.00, cache_write_5m: 2.50,  cache_write_1h: 4.00,  cache_read: 0.10}
+    claude-opus-5-5:   {input: 4.00, output: 20.00, cache_write_5m: 5.00,  cache_write_1h: 8.00,  cache_read: 0.20}
+    claude-fable-5-2:  {input: 8.00, output: 40.00, cache_write_5m: 10.00, cache_write_1h: 16.00, cache_read: 0.20}
+    claude-haiku-5-5:
+      {input: 0.10, output: 0.50, cache_write_5m: 0.125, cache_write_1h: 0.20, cache_read: 0.01,
+       long_prompt_over_tokens: 100000,
+       long_prompt: {input: 0.50, output: 2.50, cache_write_5m: 0.625, cache_write_1h: 1.00, cache_read: 0.05}}
+  cache_ttl_static: 1h          # tools + system prompt; the conversation tail uses 5m
+  refusal_fallback: true        # if a safety filter declines, Anthropic retries on a fallback model
+  summarize_after_tokens: 60000 # above this, Haiku summarizes older turns
+  keep_recent_turns: 6
+  candles: {mode: B, last_1m_bars: 60}   # B = levels + raw candles (user choice 2026-11-17); A = levels only
+  web_search:
+    default_on: false           # switch in the chat box turns it on per message
+    max_uses_per_message: 3
+    usd_per_1000: 10            # verified 2026-11-16 (same pricing page)
+    allowed_domains: []         # set one list or the other, not both
+    blocked_domains: []
+
+budget:                         # Anthropic API spend (Console credits; not the Claude Max plan)
+  daily_usd: 5
+  monthly_usd: 100
+  warn_at: 0.8                  # warn at 80%; at 100% Deep/Very deep blocked, Normal asks first
+
+# ── Orderbook, trades, news (phase 3) ──
+market_stream:
+  enabled: true            # Toss WebSocket (orderbook + trades) for the ticker on screen
+  ping_seconds: 60         # Toss closes a silent connection after 180 s
+  backoff_start_seconds: 1 # reconnect waits 1, 2, 4 ... s
+  backoff_max_seconds: 60
+  rest_poll_seconds: 2     # REST fallback while the stream is down
+  push_per_second: 4
+
+spread:
+  warn_pct: 0.20           # spread wider than this % of the price is shown in orange
+
+news:
+  enabled: true
+  poll_seconds: 300        # every 5 min per ticker
+  max_age_hours: 48        # older items are hidden
+  related:                 # optional extras per ticker (news only); any ticker works without this
+    SOXS: [SOXX, NVDA, AMD, TSM, AVGO, MU, ASML, INTC]
+    SOXX: [NVDA, AMD, TSM, AVGO, MU, ASML, INTC]
+  extra: []                # always watched, e.g. [QQQ]
+  max_symbols: 20
+  finnhub_min_interval_seconds: 1.1
+  massive_calls_per_minute: 5    # UNVERIFIED limit; backup source only
+  tag_batch_size: 20
+  tag_enabled: true        # Haiku tags priority / direction / reason
+
+# ── Orders (phase 4) ── read CLAUDE.md "Order safety" before changing anything here.
+orders:
+  dry_run: true            # true = orders are SIMULATED; Toss order endpoints are never called.
+                           # Only you switch this to false (see README "Real orders").
+  account_seq: null        # only if Toss lists several brokerage accounts
+  account_refresh_seconds: 10
+  draft_ttl_seconds: 180   # default draft expiry; you can change it in the Orders tab
+  price_band_pct: 3        # default: a limit price must be within +-3% of the current price (Orders tab setting)
+  max_order_usd: null      # optional limits, off (user choice 2026-11-17)
+  max_day_usd: null
+  max_orders_per_day: null
+  allow_market_outside_regular: true   # user choice; drafts warn about thin pre/after-market books
+
+# ── Phone access (phase 5) ── read README section "Phone access" first.
+# The dashboard still listens on this computer only; Tailscale "serve" (never "funnel") brings your own
+# devices to it. A login passcode is needed on every device (set it with scripts\set_passcode.cmd).
+remote:
+  allow_remote: false        # false = use the dashboard on THIS computer only (phone / Tailscale access refused).
+                             # true = allow your own Tailscale devices (README section 8)
+  allowed_logins: []         # optional: your Tailscale account(s); empty = any device in your own tailnet
+  local_session_days: 30     # how long a login lasts on this computer
+  remote_session_hours: 24   # how long a login lasts on the phone (user choice 2026-11-17)
+  max_failed_attempts: 5     # wrong passcodes / PINs before a lockout
+  lockout_minutes: 15
+  orders_enabled: false      # sending orders from the phone. Only you switch this on (asks your PIN each time)
+  block_market_orders: true  # from the phone: limit orders only

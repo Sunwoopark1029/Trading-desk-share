@@ -1,0 +1,10 @@
+# Daily backup of data/ and logs/ (started by trading-desk-backup.timer). @REPO@ is replaced by setup.sh.
+[Unit]
+Description=Trading Desk daily backup (data/ and logs/)
+
+[Service]
+Type=oneshot
+User=trading
+Group=trading
+ExecStart=/bin/bash @REPO@/scripts/linux/backup.sh
+UMask=0077

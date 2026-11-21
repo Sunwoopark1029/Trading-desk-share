@@ -1,0 +1,14 @@
+{
+  "result": {
+    "etfs": [
+      {
+        "symbol": "091160",
+        "name": "KODEX 반도체"
+      },
+      {
+        "symbol": "396500",
+        "name": "TIGER Fn반도체TOP10"
+      }
+    ]
+  }
+}

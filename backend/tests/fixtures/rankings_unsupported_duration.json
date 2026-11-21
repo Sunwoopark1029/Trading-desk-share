@@ -1,0 +1,18 @@
+{
+  "error": {
+    "requestId": "01HXYZABCDEFG123456789",
+    "code": "unsupported-ranking-duration",
+    "message": "지원하지 않는 랭킹 기간입니다.",
+    "data": {
+      "field": "duration",
+      "allowedValues": [
+        "1d",
+        "1w",
+        "1mo",
+        "3mo",
+        "6mo",
+        "1y"
+      ]
+    }
+  }
+}

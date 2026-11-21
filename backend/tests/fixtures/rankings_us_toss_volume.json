@@ -1,0 +1,31 @@
+{
+  "result": {
+    "rankedAt": "2026-06-10T14:30:00+09:00",
+    "rankings": [
+      {
+        "rank": 1,
+        "symbol": "NVDA",
+        "currency": "USD",
+        "price": {
+          "lastPrice": "131.38",
+          "basePrice": "128.45",
+          "changeRate": "0.0228"
+        },
+        "tradingVolume": "342100",
+        "tradingAmount": "44942580"
+      },
+      {
+        "rank": 2,
+        "symbol": "TSLA",
+        "currency": "USD",
+        "price": {
+          "lastPrice": "248.5",
+          "basePrice": "251.2",
+          "changeRate": "-0.0107"
+        },
+        "tradingVolume": "218500",
+        "tradingAmount": "54296250"
+      }
+    ]
+  }
+}

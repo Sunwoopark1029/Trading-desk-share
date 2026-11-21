@@ -1,0 +1,44 @@
+{
+  "_readme": "Example only. Copy this file to positions.json and replace every value with your own records. Times need a UTC offset. fee and fx_rate are optional: a missing fee is estimated (est.), fx_rate is the KRW per USD rate actually applied.",
+  "trades": [
+    {
+      "time": "2026-11-13T23:45:00+09:00",
+      "symbol": "SOXS",
+      "side": "buy",
+      "qty": 10,
+      "price": 4.12,
+      "currency": "USD",
+      "fee": 0.04,
+      "fx_rate": 1458.30
+    },
+    {
+      "time": "2026-11-14T00:30:00+09:00",
+      "symbol": "SOXS",
+      "side": "sell",
+      "qty": 4,
+      "price": 4.35,
+      "currency": "USD"
+    }
+  ],
+  "plans": [
+    {
+      "symbol": "SOXS",
+      "side": "buy",
+      "price": 3.95,
+      "currency": "USD",
+      "note": "add near swing low"
+    },
+    {
+      "symbol": "SOXS",
+      "side": "sell",
+      "price": 6500,
+      "currency": "KRW"
+    }
+  ],
+  "avg_override": {
+    "SOXS": {
+      "price": 4.10,
+      "currency": "USD"
+    }
+  }
+}

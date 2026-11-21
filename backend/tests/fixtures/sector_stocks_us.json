@@ -1,0 +1,14 @@
+{
+  "result": {
+    "stocks": [
+      {
+        "symbol": "NVDA",
+        "name": "엔비디아",
+        "volume": "182400500",
+        "tradingAmount": "31204500000000",
+        "marketCapitalization": "4703000000000000",
+        "currency": "KRW"
+      }
+    ]
+  }
+}

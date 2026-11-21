@@ -1,0 +1,25 @@
+# Personal Trading Desk on the cloud server (docs/plans/CLOUD_PLAN.md).
+# Installed by setup.sh as /etc/systemd/system/trading-desk.service (@REPO@ is replaced with the repo path).
+# Listens on 127.0.0.1 only; Tailscale serve is the only way in. Never bind 0.0.0.0.
+[Unit]
+Description=Personal Trading Desk (localhost only, reached through Tailscale)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=trading
+Group=trading
+WorkingDirectory=@REPO@
+ExecStart=@REPO@/backend/.venv/bin/python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+# hardening: no privilege gain, private /tmp, system folders read-only
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
