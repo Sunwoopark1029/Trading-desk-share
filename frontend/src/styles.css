@@ -190,6 +190,17 @@ button.danger { border-color: #8f1f24; color: #ffb4b4; }
   .grid.desk { row-gap: 8px; }
 }
 
+/* medium width (431-900px, e.g. an unfolded Z Fold): chart on top, tabs under it */
+.tablet-desk { display: flex; flex-direction: column; gap: 6px; padding: 6px; }
+.tablet-desk .chart-wrap { height: 45vh; min-height: 240px; }
+.tablet-tabs { display: flex; gap: 4px; position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 2px 0; }
+.tablet-tabs button { flex: 1; padding: 9px 4px; font-size: 13px; }
+.tablet-tabs button.on { background: var(--panel-2); color: var(--accent); }
+.tablet-pane { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.tablet-pane[hidden] { display: none; }
+.tablet-desk .chat-panel { height: calc(55vh - 150px); min-height: 320px; }
+.tablet-desk .chat-log { max-height: none; flex: 1 1 auto; }
+
 /* chat (phase 2) */
 .chat-panel { display: flex; flex-direction: column; min-height: 360px; }
 .chat-convs { display: flex; gap: 4px; align-items: center; min-width: 0; }

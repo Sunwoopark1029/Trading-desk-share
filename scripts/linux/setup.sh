@@ -78,11 +78,15 @@ missing=0
 [ -f "$REPO/data/config.local.yaml" ] || { echo "- data/config.local.yaml with remote.allow_remote: true and your Tailscale login (README)"; missing=1; }
 if [ "$missing" -eq 0 ]; then
   systemctl restart trading-desk.service
-  sleep 3
-  if curl -fsS http://127.0.0.1:8000/api/auth/status >/dev/null; then
+  ok=0
+  for _ in $(seq 1 20); do          # the app needs a few seconds to start
+    if curl -fsS http://127.0.0.1:8000/api/auth/status >/dev/null 2>&1; then ok=1; break; fi
+    sleep 2
+  done
+  if [ "$ok" -eq 1 ]; then
     echo "The dashboard is running on 127.0.0.1:8000. Open it through Tailscale serve (README)."
   else
-    echo "Started, but it does not answer yet. Check: journalctl -u trading-desk -n 50"
+    echo "Started, but it does not answer after 40 s. Check: journalctl -u trading-desk -n 50 --no-pager"
   fi
 else
   echo "Fix the items above, then run this script again (it is safe to repeat)."

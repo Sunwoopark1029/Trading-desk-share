@@ -273,7 +273,7 @@ AWS Lightsail, Seoul (`ap-northeast-2`), Ubuntu LTS, 2 GB, static IP; reachable 
 - [x] README "Cloud server" section (EN / KO): section 8b
 - [ ] User: AWS account (2FA, billing alert), Lightsail server + static IP, Toss IP registration, Tailscale, `.env` on the server
 - [ ] DRY_RUN days on the server, then the PC switches to workshop
-- Open: Toss (several IPs? second key? cloud use in the terms?), Lightsail disk encryption; Yahoo blocking accepted for now
+- Open: Toss (several IPs? second key? cloud use in the terms?), Lightsail disk encryption. Yahoo (yfinance) works from the server (user check 2026-11-21; watch for blocks later)
 - **Done when**: the server runs the live copy through reboots and updates, the PC in workshop mode can't send or fire anything, a trusted desktop orders without a PIN while the phone still needs it, and a backup can be restored
 
 ## Later (out of scope, ideas only)

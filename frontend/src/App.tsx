@@ -28,6 +28,8 @@ type Tab = "chart" | "pnl" | "chat" | "book" | "research" | "orders" | "journal"
 const TABS: [Tab, Key][] = [["chart", "tab.chart"], ["pnl", "tab.pnl"], ["chat", "tab.chat"], ["book", "tab.book"],
   ["research", "tab.research"], ["orders", "tab.orders"], ["journal", "view.journal"], ["settings", "view.settings"]];
 type View = "desk" | "research" | "orders" | "journal" | "settings";
+type DeskTab = "chat" | "pnl" | "book" | "info";
+const DESK_TABS: [DeskTab, Key][] = [["chat", "tab.chat"], ["pnl", "tab.pnl"], ["book", "tab.book"], ["info", "tab.info"]];
 const VIEWS: View[] = ["desk", "research", "orders", "journal", "settings"];
 
 /** Per-browser memory (active ticker, last view). Storage may be off: then nothing is remembered. */
@@ -130,6 +132,9 @@ function Desk({ defaultSymbol, compare, quotesMs, candlesMs, chartDefaults, onSe
   useEffect(() => remember("desk.symbol", symbol), [symbol]);
   useEffect(() => remember("desk.view", view), [view]);
   const phone = useMediaQuery("(max-width: 430px)");
+  // medium width (e.g. an unfolded Galaxy Z Fold): chart on top, one tab area under it (Chat first)
+  const tablet = useMediaQuery("(min-width: 431px) and (max-width: 900px)");
+  const [deskTab, setDeskTab] = useState<DeskTab>("chat");
   // any ticker on screen (TickerLink): make it the current ticker and open its Research page
   const openResearch = useCallback((s: string) => {
     setSymbol(s.toUpperCase());
@@ -271,6 +276,20 @@ function Desk({ defaultSymbol, compare, quotesMs, candlesMs, chartDefaults, onSe
         <main className="orders-main"><Journal /></main>
       ) : view === "settings" ? (
         <main className="orders-main"><SettingsPage onSaved={onSettingsSaved} /></main>
+      ) : tablet ? (
+        <main className="tablet-desk">
+          {chart}
+          <nav className="tablet-tabs">
+            {DESK_TABS.map(([k, label]) => (
+              <button key={k} className={deskTab === k ? "on" : ""} onClick={() => setDeskTab(k)}>{t(label)}</button>
+            ))}
+          </nav>
+          {/* every panel stays mounted (a chat answer keeps streaming); only the chosen one is shown */}
+          <div className="tablet-pane" hidden={deskTab !== "chat"}>{chat}</div>
+          <div className="tablet-pane" hidden={deskTab !== "pnl"}>{pnl}{reserved}</div>
+          <div className="tablet-pane" hidden={deskTab !== "book"}>{book}<OptionsPanel symbol={symbol} />{news}</div>
+          <div className="tablet-pane" hidden={deskTab !== "info"}>{myInfo}</div>
+        </main>
       ) : (
         <DeskSplit
           left={<>

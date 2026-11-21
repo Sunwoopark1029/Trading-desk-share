@@ -135,7 +135,7 @@ you create the server → setup together → DRY_RUN days → switch the PC to w
    use allowed by the terms? (all **unverified**)
 2. **Yahoo (yfinance)** often blocks cloud server addresses. The strip boxes, options panel and some
    Research fallbacks may show "error / stale" on the server. **Accepted for now** (user 2026-11-21);
-   alternatives are a later decision.
+   alternatives are a later decision. Checked after setup: yfinance works from the server (2026-11-21).
 3. **Desktop as "remote"**: decided 2026-11-21: trusted devices (section 5).
 4. **Always-on rules**: armed rules will fire while you sleep. That is the purpose, and also the risk;
    the per-order / per-day limits in Settings are worth setting before real orders run on the server.

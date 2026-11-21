@@ -58,4 +58,6 @@ user_settings.json.tmp
 overlays.json
 cache/
 watchlist.json
+config.local.yaml
+.config.local.yaml.*
 .watchlist.json.*
